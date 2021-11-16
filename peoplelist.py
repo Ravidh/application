@@ -6,7 +6,7 @@ def p_list(path,input="all"):
 
     This function recieves a path to a directory,
     reads all the JSON files in the directory
-    and returns a list of the names of the JSON files.
+    and returns a list of the names and the info from the JSON files.
     '''
 
     file_list = glob(path+'*.json')
