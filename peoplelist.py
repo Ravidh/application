@@ -25,8 +25,12 @@ def p_list(path,input="all"):
         return names, info
 
     else:
-        part_names = [n for n in names if (input in n) | (input.upper() in n) | (input.lower() in n)]
-        part_info = [i for i in info if (input in i["name"]) | (input.upper() in i["name"]) | (input.lower() in i["name"])]
+        firstup = input[0].upper()
+        if len(input)>1:
+            firstup = firstup+input[1:]
+        part_names = [n for n in names if (input in n) | (input.upper() in n) | (input.lower() in n) | (firstup in n)]
+        part_info = [i for i in info if (input in i["name"]) | (input.upper() in i["name"]) | (input.lower() in i["name"]) | (firstup in i["name"])]
+
         if len(part_names)>0:
             return part_names, part_info
         else:
