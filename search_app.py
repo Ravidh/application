@@ -12,36 +12,30 @@ home_b = "<br><h3><a href=/>Home</a></h3>"
 def main():
     names, info = p_list("/home/ravidh/wis-advanced-python-2021-2022/students/")
     names.sort()
-    names_links = []
-
+    all_names = {}
     for name in names:
-        link = "<a href=/"+name.split(' ')[0]+">"+name+"</a>"
-        names_links.append(link)
+        all_names[name] = name.split(' ')
 
-    names_links.append(home_b)
-    list_names = '<br>'.join(names_links)
-    return render_template('search_code.html')+list_names
+    return render_template('home.html', title = "People Search Engine", names = all_names)
 
 @app.route("/result")
 def result():
     names, info = p_list("/home/ravidh/wis-advanced-python-2021-2022/students/",request.args.get('text',''))
     names.sort()
-    names_links = []
-
+    all_names = {}
     for name in names:
-        link = "<a href=/"+name.split(' ')[0]+">"+name+"</a>"
-        names_links.append(link)
+        all_names[name] = name.split(' ')
 
-    if len(info) == 0:
-        names_links.insert(0,"No mathes found!<br>")
+    if len(info) > 0:
+        info_len = 1
+    else:
+        info_len = 0
 
-    names_links.append(home_b)
-    list_names = '<br>'.join(names_links)
-    return render_template('search_code.html') + list_names
+    return render_template('search_names.html', title = "People Search Engine", names = all_names, info_len = info_len)
 
 @app.route("/<name>")
 def name_info(name):
     names, info = p_list("/home/ravidh/wis-advanced-python-2021-2022/students/")
     for i in info:
         if name in i["name"]:
-            return render_template('search_code.html') + jsontext(i) + home_b
+            return render_template('include/search_line.html') + jsontext(i) + home_b

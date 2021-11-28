@@ -1,0 +1,14 @@
+{% include 'include/search_line.html' %}
+
+<h1>{{ title }}</h1>
+{% if info_len %}
+  <ul>
+    {% for name in names.keys() %}
+       <li><a href=/{{ names[name][0] }}>{{ name }}</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No mathes found!</p>
+{% endif %}
+
+{% include 'include/home_button.html' %}
