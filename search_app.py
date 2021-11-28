@@ -6,12 +6,14 @@ from jsontext import jsontext
 
 app = Flask(__name__)
 
+directory = "/home/ravidh/wis-advanced-python-2021-2022/students/"
+names, info = p_list(directory)
+names.sort()
+
 home_b = "<br><h3><a href=/>Home</a></h3>"
 
 @app.route("/")
 def main():
-    names, info = p_list("/home/ravidh/wis-advanced-python-2021-2022/students/")
-    names.sort()
     all_names = {}
     for name in names:
         all_names[name] = name.split(' ')
@@ -20,22 +22,21 @@ def main():
 
 @app.route("/result")
 def result():
-    names, info = p_list("/home/ravidh/wis-advanced-python-2021-2022/students/",request.args.get('text',''))
-    names.sort()
-    all_names = {}
-    for name in names:
-        all_names[name] = name.split(' ')
+    names_res, info_res = p_list(directory,request.args.get('text',''))
+    names_res.sort()
+    all_names_res = {}
+    for name in names_res:
+        all_names_res[name] = name.split(' ')
 
-    if len(info) > 0:
+    if len(info_res) > 0:
         info_len = 1
     else:
         info_len = 0
 
-    return render_template('search_names.html', title = "People Search Engine", names = all_names, info_len = info_len)
+    return render_template('search_names.html', title = "People Search Engine", names = all_names_res, info_len = info_len)
 
 @app.route("/<name>")
 def name_info(name):
-    names, info = p_list("/home/ravidh/wis-advanced-python-2021-2022/students/")
     for i in info:
         if name in i["name"]:
             return render_template('include/search_line.html') + jsontext(i) + home_b
